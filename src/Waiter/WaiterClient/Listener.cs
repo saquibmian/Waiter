@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using Waiter.CommandLine;
 using Waiter.Exceptions;
 using Waiter.Logging;
 
@@ -11,6 +12,7 @@ namespace Waiter.WaiterClient {
         private HttpListener _listener;
         internal int RequestsToProcess { get; set; }
         internal int Timeout { get; set; }
+        internal HttpMethod Method { get; set; }
 
         internal void Listen( string urlToListenTo ) {
             _listener = new HttpListener();
@@ -37,15 +39,22 @@ namespace Waiter.WaiterClient {
             _listener = null;
         }
 
-        private static void ProcessRequest(IAsyncResult result) {
+        private void ProcessRequest(IAsyncResult result) {
             var listener = (HttpListener)result.AsyncState;
 
             var context = listener.EndGetContext(result);
             
             var request = context.Request;
-            var from = request.RemoteEndPoint;
-            var to = request.LocalEndPoint;
-            Logger.Info( "Recieved request from {0} to {0}", from, to );
+            Logger.Info(
+                "Recieved {0} request from {1} to {2}", 
+                request.HttpMethod, 
+                request.RemoteEndPoint, 
+                request.LocalEndPoint
+            );
+            if ( !Method.Accepts( request.HttpMethod ) ) {
+                Logger.Info( "Skipping the request" );
+                return;
+            }
             if ( request.HasEntityBody ) {
                 using( var stream = request.InputStream )
                 using ( var reader = new StreamReader( stream ) ) {
