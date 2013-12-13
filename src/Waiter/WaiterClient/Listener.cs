@@ -23,7 +23,7 @@ namespace Waiter.WaiterClient {
             } catch (HttpListenerException ex) {
                 throw new IncorrectUrlException(ex, "Incorrect url {0}", urlToListenTo);
             }
-            Logger.Info( "Listening for URLs matching {0} ...", urlToListenTo );
+            Logger.Info( "Listening for {0} requests matching {1} ...", Method.ToString().ToUpper(), urlToListenTo );
 
             while( _currentRequest <= RequestsToProcess ) {
                 Logger.Info( "Waiting for request #{0} out of {1} ...", _currentRequest, RequestsToProcess );
