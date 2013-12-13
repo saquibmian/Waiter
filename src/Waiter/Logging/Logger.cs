@@ -27,6 +27,9 @@ namespace Waiter.Logging {
 			var fileName = string.Format( "request-{0}.xml", request.Id );
 			var path = Path.Combine( CommandLineOptions.Global.LogDirectory, fileName );
 
+			if( !Directory.Exists( CommandLineOptions.Global.LogDirectory ) )
+				Directory.CreateDirectory( CommandLineOptions.Global.LogDirectory );
+
 			using( var stream = File.OpenWrite( path ) ) {
 				serializer.Serialize( stream, request );
 			}
