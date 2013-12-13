@@ -47,9 +47,13 @@
     <Compile Include="CommandLine\CommandLineParser.cs" />
     <Compile Include="CommandLine\CommandLineParserReponse.cs" />
     <Compile Include="CommandLine\CommandLineOptions.cs" />
+    <Compile Include="Exceptions\WaiterTimeoutException.cs" />
     <Compile Include="WaiterClient\HttpMethod.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Exceptions\IncorrectUrlException.cs" />
+    <Compile Include="WaiterClient\Listener.cs" />
+    <Compile Include="Exceptions\WaiterException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
