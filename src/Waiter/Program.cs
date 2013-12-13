@@ -1,7 +1,7 @@
 ﻿using System;
 using Waiter.CommandLine;
 using Waiter.Logging;
-using Waiter.Ports;
+using Waiter.Networking;
 using Waiter.UriExtensions;
 using Waiter.WaiterClient;
 
@@ -22,6 +22,13 @@ namespace Waiter {
             
             _options = result.Options;
 
+            if ( _options.Url.Contains( "127.0.0.1" ) || _options.Url.Contains( "localhost" ) ) {
+                var localIp = IpFinder.GetLocalIp();
+                _options.Url = _options.Url
+                    .Replace( "127.0.0.1", localIp )
+                    .Replace( "localhost", localIp );
+            }
+
             Uri url = null;
             try {
                 url = new Uri( _options.Url );
@@ -29,7 +36,7 @@ namespace Waiter {
                 Logger.Error( "Invalid URL format: {0}", _options.Url );
                 Logger.Error( ex.Message );
                 Logger.Error( ex.StackTrace );
-                Environment.Exit( -1 );
+                Exit( -1 );
             }
 
             if ( _options.Port == 0 ) {
@@ -50,7 +57,7 @@ namespace Waiter {
             } catch (Exception ex) {
                 Logger.Error( ex.Message );
                 Logger.Error( ex.StackTrace );
-                Environment.Exit( -1 );
+                Exit( -1 );
             }
 
             if (_options.Interactive) {
@@ -58,7 +65,15 @@ namespace Waiter {
                 Console.ReadLine();
             }
 
-            Environment.Exit( 0 );
+            Exit( 0 );
+        }
+
+        private static void Exit( int exitCode ) {
+            if (_options.Interactive) {
+                Console.ReadLine();
+            }
+
+            Environment.Exit( exitCode );
         }
 
     }

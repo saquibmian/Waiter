@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using Waiter.Networking;
 
 namespace Waiter.CommandLine {
     internal class CommandLineParser {
@@ -16,7 +17,7 @@ namespace Waiter.CommandLine {
                 Method = HttpMethod.All,
                 Timeout = 1200,
                 NumberOfRequests = 1,
-                Url = string.Format( "http://{0}/", Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork) ),
+                Url = string.Format( "http://{0}/", IpFinder.GetLocalIp() ),
                 Interactive = false
             };
 

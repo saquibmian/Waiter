@@ -49,7 +49,8 @@
     <Compile Include="CommandLine\CommandLineOptions.cs" />
     <Compile Include="Exceptions\WaiterTimeoutException.cs" />
     <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Ports\PortFinder.cs" />
+    <Compile Include="Networking\IPFinder.cs" />
+    <Compile Include="Networking\PortFinder.cs" />
     <Compile Include="UriExtensions\UriExtensions.cs" />
     <Compile Include="WaiterClient\HttpMethod.cs" />
     <Compile Include="Program.cs" />
