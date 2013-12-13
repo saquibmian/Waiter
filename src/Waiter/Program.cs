@@ -59,11 +59,7 @@ namespace Waiter {
                 url = url.ChangePort( _options.Port );
             }
 
-            var listener = new Listener {
-                Method = _options.Method,
-                RequestsToProcess = _options.NumberOfRequests,
-                Timeout = _options.Timeout
-            };
+	        var listener = new Listener( _options );
 
             try {
                 listener.Listen(url.AbsoluteUri);

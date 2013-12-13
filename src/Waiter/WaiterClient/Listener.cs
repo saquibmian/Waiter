@@ -8,14 +8,15 @@ using Waiter.Logging;
 namespace Waiter.WaiterClient {
     internal class Listener {
 
-        private HttpListener _listener;
-        internal int RequestsToProcess { get; set; }
-        internal int Timeout { get; set; }
-        internal HttpMethod Method { get; set; }
-
+	    private HttpListener _listener;
         private int _currentRequest = 1;
+		readonly CommandLineOptions _options;
 
-        internal void Listen( string urlToListenTo ) {
+	    public Listener( CommandLineOptions options ) {
+		    _options = options;
+	    }
+
+	    internal void Listen( string urlToListenTo ) {
             _listener = new HttpListener();
             _listener.Prefixes.Add( urlToListenTo );
             try {
@@ -23,13 +24,13 @@ namespace Waiter.WaiterClient {
             } catch (HttpListenerException ex) {
                 throw new IncorrectUrlException(ex, "Incorrect url {0}", urlToListenTo);
             }
-            Logger.Info( "Listening for {0} requests matching {1} ...", Method.ToString().ToUpper(), urlToListenTo );
+			Logger.Info( "Listening for {0} requests matching {1} ...", _options.Method.ToString().ToUpper(), urlToListenTo );
 
-            while( _currentRequest <= RequestsToProcess ) {
-                Logger.Info( "Waiting for request #{0} out of {1} ...", _currentRequest, RequestsToProcess );
+			while( _currentRequest <= _options.NumberOfRequests ) {
+				Logger.Info( "Waiting for request #{0} out of {1} ...", _currentRequest, _options.NumberOfRequests );
 
                 var context = _listener.BeginGetContext( ProcessRequest, _listener );
-                var response = context.AsyncWaitHandle.WaitOne( Timeout*1000 );
+                var response = context.AsyncWaitHandle.WaitOne( _options.Timeout*1000 );
                 Thread.Sleep( 1000 ); //synchronizing the logging
                 if ( !response ) {
                     throw new WaiterTimeoutException( "Timed out while waiting for request #{0}.", _currentRequest );
@@ -55,7 +56,7 @@ namespace Waiter.WaiterClient {
                 request.RemoteEndPoint, 
                 request.LocalEndPoint
             );
-            if ( !Method.Accepts( request.HttpMethod ) ) {
+			if( !_options.Method.Accepts( request.HttpMethod ) ) {
                 context.Response.Ignore();
                 return;
             }
