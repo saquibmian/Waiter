@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using Waiter.CommandLine;
 using Waiter.Exceptions;
 using Waiter.Logging;
@@ -29,6 +30,7 @@ namespace Waiter.WaiterClient {
 
                 var context = _listener.BeginGetContext( ProcessRequest, _listener );
                 var response = context.AsyncWaitHandle.WaitOne( Timeout*1000 );
+                Thread.Sleep( 1000 ); //synchronizing the logging
                 if ( !response ) {
                     throw new WaiterTimeoutException( "Timed out while waiting for request #{0}.", i );
                 }
