@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using Waiter.Exceptions;
+using Waiter.Logging;
 
 namespace Waiter.WaiterClient {
     internal class Listener {
@@ -18,9 +20,11 @@ namespace Waiter.WaiterClient {
             } catch (HttpListenerException ex) {
                 throw new IncorrectUrlException(ex, "Incorrect url {0}", urlToListenTo);
             }
+            Logger.Info( "Listening for URLs matching {0} ...", urlToListenTo );
 
             for (var i = 1; i <= RequestsToProcess; i++) {
-                // log that we are waiting for request #x
+                Logger.Info( "Waiting for request #{0}", i );
+
                 var context = _listener.BeginGetContext( ProcessRequest, _listener );
                 var response = context.AsyncWaitHandle.WaitOne( Timeout*1000 );
                 if ( !response ) {
@@ -39,7 +43,15 @@ namespace Waiter.WaiterClient {
             var context = listener.EndGetContext(result);
             
             var request = context.Request;
-            // log request received from to with payload
+            var from = request.RemoteEndPoint;
+            var to = request.LocalEndPoint;
+            Logger.Info( "Recieved request from {0} to {0}", from, to );
+            if ( request.HasEntityBody ) {
+                using( var stream = request.InputStream )
+                using ( var reader = new StreamReader( stream ) ) {
+                    Logger.Info( "\tRequest body is '{0}'", reader.ReadToEnd() );
+                }
+            }
 
             var response = context.Response;
             var buffer = Encoding.UTF8.GetBytes( "Recieved" );
