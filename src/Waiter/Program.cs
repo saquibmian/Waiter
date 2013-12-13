@@ -17,7 +17,7 @@ namespace Waiter {
             ShowLogo();
 
             if ( args.Contains( "-usage" )) {
-                CommandLineParser.ShowUsage();
+                CommandLineOptions.ShowUsage();
                 Console.ReadLine();
                 Environment.Exit( 0 );
             }
