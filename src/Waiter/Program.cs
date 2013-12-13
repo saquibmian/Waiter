@@ -45,7 +45,18 @@ namespace Waiter {
                 Timeout = _options.Timeout
             };
 
-            listener.Listen( url.AbsoluteUri );
+            try {
+                listener.Listen(url.AbsoluteUri);
+            } catch (Exception ex) {
+                Logger.Error( ex.Message );
+                Logger.Error( ex.StackTrace );
+                Environment.Exit( -1 );
+            }
+
+            if (_options.Interactive) {
+                Console.WriteLine( "Done!" );
+                Console.ReadLine();
+            }
 
             Environment.Exit( 0 );
         }
