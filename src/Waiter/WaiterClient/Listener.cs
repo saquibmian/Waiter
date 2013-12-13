@@ -60,11 +60,23 @@ namespace Waiter.WaiterClient {
                 return;
             }
             _currentRequest++;
+	        string body = null;
             if ( request.HasEntityBody ) {
-                Logger.Info( "\tRequest body is '{0}'", request.GetBody() );
+	            body = request.GetBody();
+                Logger.Info( "\tRequest body is '{0}'", body );
             }
 
             context.Response.Accept();
+
+	        var dto = new Request {
+		        Time = DateTime.Now,
+		        Id = _currentRequest-1,
+		        From = request.RemoteEndPoint.ToString(),
+		        To = request.LocalEndPoint.ToString(),
+		        Method = request.HttpMethod,
+		        Content = body
+	        };
+	        Logger.Request( dto );
         }
 
     }
