@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waiter", "Waiter\Waiter.csproj", "{53D5863C-C295-41F8-9914-CBC3122CE4AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaiterTests", "WaiterTests\WaiterTests.csproj", "{D570D12B-D510-4A72-BAE1-86BF204AE433}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{53D5863C-C295-41F8-9914-CBC3122CE4AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53D5863C-C295-41F8-9914-CBC3122CE4AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53D5863C-C295-41F8-9914-CBC3122CE4AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D570D12B-D510-4A72-BAE1-86BF204AE433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D570D12B-D510-4A72-BAE1-86BF204AE433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D570D12B-D510-4A72-BAE1-86BF204AE433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D570D12B-D510-4A72-BAE1-86BF204AE433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
