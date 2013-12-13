@@ -25,7 +25,7 @@ namespace Waiter.WaiterClient {
             Logger.Info( "Listening for URLs matching {0} ...", urlToListenTo );
 
             for (var i = 1; i <= RequestsToProcess; i++) {
-                Logger.Info( "Waiting for request #{0}", i );
+                Logger.Info( "Waiting for request #{0} out of {1}", i, RequestsToProcess );
 
                 var context = _listener.BeginGetContext( ProcessRequest, _listener );
                 var response = context.AsyncWaitHandle.WaitOne( Timeout*1000 );
@@ -33,6 +33,8 @@ namespace Waiter.WaiterClient {
                     throw new WaiterTimeoutException( "Timed out while waiting for request #{0}.", i );
                 }
             }
+
+            GC.KeepAlive( _listener );
 
             _listener.Stop();
             _listener.Close();
