@@ -2,6 +2,7 @@
 using Waiter.CommandLine;
 using Waiter.Logging;
 using Waiter.Ports;
+using Waiter.UriExtensions;
 using Waiter.WaiterClient;
 
 namespace Waiter {
@@ -35,9 +36,7 @@ namespace Waiter {
                 _options.Port = PortFinder.GetFreePort();
             }
             if ( url.Port != _options.Port ) {
-                var builder = new UriBuilder( url );
-                builder.Port = _options.Port;
-                url = builder.Uri;
+                url = url.ChangePort( _options.Port );
             }
 
             var listener = new Listener {
