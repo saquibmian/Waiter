@@ -64,7 +64,7 @@ namespace Waiter.WaiterClient {
 	        string body = null;
             if ( request.HasEntityBody ) {
 	            body = request.GetBody();
-                Logger.Info( "\tRequest body is '{0}'", body );
+                Logger.Info( "Request body is '{0}'", body );
             }
 
             context.Response.Accept();
