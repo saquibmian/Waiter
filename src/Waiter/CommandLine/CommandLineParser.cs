@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Waiter.CommandLine {
     internal class CommandLineParser {
@@ -13,7 +15,9 @@ namespace Waiter.CommandLine {
                 Port = 0,
                 Method = HttpMethod.All,
                 Timeout = 1200,
-                Url = "http://*/"
+                NumberOfRequests = 1,
+                Url = string.Format( "http://{0}/", Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork) ),
+                Interactive = false
             };
 
             _errors = new List<string>();
@@ -74,6 +78,14 @@ namespace Waiter.CommandLine {
                         options.Method = method;
                     } else {
                         _errors.Add( string.Format( "{0} is not a valid http method", pair.Value ) );
+                    }
+                    break;
+                case "-INTERACTIVE":
+                    bool boolean;
+                    if ( Boolean.TryParse( pair.Value, out boolean ) ) {
+                        options.Interactive = boolean;
+                    } else {
+                        _errors.Add( string.Format( "{0} is not a valid boolean", pair.Value ) );
                     }
                     break;
                 default:

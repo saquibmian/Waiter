@@ -7,6 +7,7 @@ namespace Waiter.CommandLine {
         internal int NumberOfRequests { get; set; }
         internal string Url { get; set; }
         internal HttpMethod Method { get; set; }
+        internal bool Interactive { get; set; }
 
     }
 }
