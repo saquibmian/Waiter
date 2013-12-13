@@ -10,10 +10,10 @@ namespace Waiter.CommandLine {
 
         private void Initialize() {
             _default = new CommandLineOptions {
-                Port = 1234,
+                Port = 0,
                 Method = HttpMethod.All,
                 Timeout = 1200,
-                Url = "*"
+                Url = "http://*/"
             };
 
             _errors = new List<string>();
@@ -45,8 +45,7 @@ namespace Waiter.CommandLine {
                     int port;
                     if ( int.TryParse( pair.Value, out port ) ) {
                         options.Port = port;
-                    }
-                    else {
+                    } else {
                         _errors.Add( string.Format( "{0} is not a valid port number", pair.Value ) );
                     }
                     break;
@@ -57,17 +56,23 @@ namespace Waiter.CommandLine {
                     int timeout;
                     if ( int.TryParse( pair.Value, out timeout ) ) {
                         options.Timeout = timeout;
-                    }
-                    else {
+                    } else {
                         _errors.Add( string.Format( "{0} is not a valid timeout", pair.Value ) );
+                    }
+                    break;
+                case "-REQUESTS":
+                    int numRequests;
+                    if (int.TryParse(pair.Value, out numRequests)) {
+                        options.NumberOfRequests = numRequests;
+                    } else {
+                        _errors.Add( string.Format( "{0} is not a valid number", pair.Value ) );
                     }
                     break;
                 case "-METHOD":
                     HttpMethod method;
                     if ( Enum.TryParse( pair.Value, true, out method ) ) {
                         options.Method = method;
-                    }
-                    else {
+                    } else {
                         _errors.Add( string.Format( "{0} is not a valid http method", pair.Value ) );
                     }
                     break;
