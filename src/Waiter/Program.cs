@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using Waiter.CommandLine;
 using Waiter.Logging;
 using Waiter.Networking;
@@ -10,6 +13,15 @@ namespace Waiter {
         private static CommandLineOptions _options;
 
         public static void Main( string[] args ) {
+
+            ShowLogo();
+
+            if ( args.Contains( "-usage" )) {
+                CommandLineParser.ShowUsage();
+                Console.ReadLine();
+                Environment.Exit( 0 );
+            }
+
             var parser = new CommandLineParser();
             var result = parser.ParseCommandLineOptions( args );
 
@@ -74,6 +86,14 @@ namespace Waiter {
             }
 
             Environment.Exit( exitCode );
+        }
+
+        private static void ShowLogo() {
+            var version = FileVersionInfo.GetVersionInfo( Assembly.GetExecutingAssembly().Location ).FileVersion;
+            Console.WriteLine( "****************************************************" );
+            Console.WriteLine("                  Waiter v{0}", version);
+            Console.WriteLine("                   (c) The Peeps");
+            Console.WriteLine( "****************************************************" );
         }
 
     }
