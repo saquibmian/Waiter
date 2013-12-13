@@ -32,7 +32,8 @@ namespace Waiter {
                 Environment.Exit( -1 );
             } 
             
-            _options = result.Options;
+            CommandLineOptions.Global = result.Options;
+	        _options = CommandLineOptions.Global;
 
             if ( _options.Url.Contains( "127.0.0.1" ) || _options.Url.Contains( "localhost" ) ) {
                 var localIp = IpFinder.GetLocalIp();

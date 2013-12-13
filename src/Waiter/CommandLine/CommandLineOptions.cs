@@ -13,13 +13,21 @@ namespace Waiter.CommandLine {
 		internal bool Log { get; set; }
 		internal string LogDirectory { get; set; }
 
-        internal static CommandLineOptions Defaults = new CommandLineOptions {
+	    static CommandLineOptions _global;
+
+	    internal static CommandLineOptions Global {
+		    get { return _global ?? ( _global = Defaults ); }
+			set { _global = value; }
+	    }
+
+	    internal static CommandLineOptions Defaults = new CommandLineOptions {
             Port = 0,
             Method = HttpMethod.All,
             Timeout = 1200,
             NumberOfRequests = 1,
             Url = string.Format("http://{0}/", IpFinder.GetLocalIp()),
 			Log = false,
+			LogDirectory = AppDomain.CurrentDomain.BaseDirectory,
             Interactive = false
         };
 
