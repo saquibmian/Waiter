@@ -52,6 +52,7 @@
     <Compile Include="Networking\IPFinder.cs" />
     <Compile Include="Networking\PortFinder.cs" />
     <Compile Include="UriExtensions\UriExtensions.cs" />
+    <Compile Include="WaiterClient\HttpListenerExtensions.cs" />
     <Compile Include="WaiterClient\HttpMethod.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
