@@ -1,6 +1,7 @@
 ﻿using System;
 using Waiter.CommandLine;
 using Waiter.Logging;
+using Waiter.Ports;
 using Waiter.WaiterClient;
 
 namespace Waiter {
@@ -30,7 +31,9 @@ namespace Waiter {
                 Environment.Exit( -1 );
             }
 
-            // if port == 0, get latest free port
+            if ( _options.Port == 0 ) {
+                _options.Port = PortFinder.GetFreePort();
+            }
             if ( url.Port != _options.Port ) {
                 var builder = new UriBuilder( url );
                 builder.Port = _options.Port;
