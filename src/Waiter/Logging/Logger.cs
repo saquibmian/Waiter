@@ -46,5 +46,11 @@ namespace Waiter.Logging {
             Info( "Logged request to {0}", path );
         }
 
+        internal static void Warn(string msg, params object[] args) {
+            var previousColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine( "WARNING: {0}", string.Format( msg, args ) );
+            Console.ForegroundColor = previousColor;
+        }
     }
 }
