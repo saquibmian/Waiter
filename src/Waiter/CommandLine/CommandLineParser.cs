@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using Waiter.Networking;
 
 namespace Waiter.CommandLine {
     internal class CommandLineParser {
