@@ -1,17 +1,37 @@
 ﻿using System;
+using System.Text;
 using Waiter.Networking;
+using Waiter.CommandLine.Attributes;
 
 namespace Waiter.CommandLine {
     internal class CommandLineOptions {
 
-        internal int Port { get; set; }
-        internal int Timeout { get; set; }
-        internal int NumberOfRequests { get; set; }
-        internal string Url { get; set; }
-        internal HttpMethod Method { get; set; }
-        internal bool Interactive { get; set; }
-		internal bool Log { get; set; }
-		internal string LogDirectory { get; set; }
+        [Optional(Command = "-port", Default = 0, Description = "the port to listen to incoming requests on")]
+        public int Port { get; set; }
+
+        [Optional(Command = "-timeout", Default = 3600, Description = "the time in seconds to wait for a request to occur")]
+        public int Timeout { get; set; }
+
+        [Optional(Command = "-requests", Default = 1, Description = "the number of requests to listen for")]
+        public int NumberOfRequests { get; set; }
+
+        [Optional(Command = "-url", Default = "http://localhost/", Description = "the url to listen for")]
+        public string Url { get; set; }
+
+        [Optional(Command = "-method", Default = HttpMethod.All, Description = "the type of request to listen for, i.e., GET")]
+        public HttpMethod Method { get; set; }
+
+        [Flag(Command = "-interactive", Description = "control whether requests should be processed")]
+        public bool Interactive { get; set; }
+
+        [Flag(Command = "-nologo", Description = "control whether requests should be processed")]
+        public bool NoLogo { get; set; }
+
+        [Flag(Command = "-log", Description = "log all requests to the filesystem")]
+        public bool Log { get; set; }
+
+        [Optional(Command = "-logdirectory", Default = ".\\", Description = "the path to the folder the save requests to")]
+        public string LogDirectory { get; set; }
 
 	    static CommandLineOptions _global;
 
@@ -20,7 +40,20 @@ namespace Waiter.CommandLine {
 			set { _global = value; }
 	    }
 
-	    internal static CommandLineOptions Defaults = new CommandLineOptions {
+        public override string ToString() {
+            var builder = new StringBuilder();
+            builder.AppendFormat( "'PORT' = '{0}'\n", Port );
+            builder.AppendFormat( "'TIMEOUT' = '{0}'\n", Timeout );
+            builder.AppendFormat( "'NUMBEROFREQUESTS' = '{0}'\n", NumberOfRequests );
+            builder.AppendFormat( "'URL' = '{0}'\n", Url );
+            builder.AppendFormat( "'METHOD' = '{0}'\n", Method );
+            builder.AppendFormat( "'INTERACTIVE' = '{0}'\n", Interactive );
+            builder.AppendFormat( "'LOG' = '{0}'\n", Log );
+            builder.AppendFormat( "'LOGDIRECTORY' = '{0}'\n", LogDirectory );
+            return builder.ToString();
+        }
+
+        internal static CommandLineOptions Defaults = new CommandLineOptions {
             Port = 0,
             Method = HttpMethod.All,
             Timeout = 1200,
@@ -30,23 +63,6 @@ namespace Waiter.CommandLine {
 			LogDirectory = AppDomain.CurrentDomain.BaseDirectory,
             Interactive = false
         };
-
-        internal static void ShowUsage() {
-            Console.WriteLine();
-            Console.WriteLine("PARAMETER: port -- the port to listen to incoming requests on (default random)");
-            Console.WriteLine("PARAMETER: url -- the url to listen for (default http://localhost/)");
-            Console.WriteLine("PARAMETER: timeout -- the time in seconds to wait for a request to occur (default 1200 seconds)");
-            Console.WriteLine("PARAMETER: requests -- the number of requests to listen for (default 1)");
-            Console.WriteLine("PARAMETER: method -- the type of request to listen for, i.e., GET (default all)");
-            Console.WriteLine("PARAMETER: log -- log all requests to the filesystem (default false)");
-            Console.WriteLine("PARAMETER: logdirectory -- the path to the folder the save requests to (default is current directory)");
-            Console.WriteLine("PARAMETER: interactive -- control whether requests should be processed (default false)");
-            Console.WriteLine("USAGE: usage -- displays this message");
-
-            Console.WriteLine();
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
 
     }
 }

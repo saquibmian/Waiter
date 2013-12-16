@@ -5,87 +5,54 @@ using System.Reflection;
 using Waiter.CommandLine;
 using Waiter.Logging;
 using Waiter.Networking;
+using Waiter.Programs;
 using Waiter.UriExtensions;
 using Waiter.WaiterClient;
 
 namespace Waiter {
     public class Program {
-        private static CommandLineOptions _options;
 
         public static void Main( string[] args ) {
 
-            ShowLogo();
-
-            if ( args.Contains( "-usage" )) {
-                CommandLineOptions.ShowUsage();
-                Console.ReadLine();
-                Environment.Exit( 0 );
-            }
-
-            var parser = new CommandLineParser();
-            var result = parser.ParseCommandLineOptions( args );
-
-            if ( !result.Success ) {
-                foreach ( var error in result.Errors ) {
-                    Logger.Error( error );
-                }
-                Environment.Exit( -1 );
-            } 
-            
-            CommandLineOptions.Global = result.Options;
-	        _options = CommandLineOptions.Global;
-
-            if ( _options.Url.Contains( "127.0.0.1" ) || _options.Url.Contains( "localhost" ) ) {
-                var localIp = IpFinder.GetLocalIp();
-                _options.Url = _options.Url
-                    .Replace( "127.0.0.1", localIp )
-                    .Replace( "localhost", localIp );
-            }
-
-            Uri url = null;
-            try {
-                url = new Uri( _options.Url );
-            } catch(UriFormatException ex ) {
-                Logger.Error( "Invalid URL format: {0}", _options.Url );
-                Logger.Error( ex.Message );
-                Logger.Error( ex.StackTrace );
+            if ( !args.Any() ) {
+                Logger.Error( "You must specify an operation!" );
                 Exit( -1 );
             }
 
-            if ( _options.Port == 0 ) {
-                _options.Port = PortFinder.GetFreePort();
-            }
-            if ( url.Port != _options.Port ) {
-                url = url.ChangePort( _options.Port );
-            }
-
-	        var listener = new Listener( _options );
-
-            try {
-                listener.Listen(url.AbsoluteUri);
-            } catch (Exception ex) {
-                Logger.Error( ex.Message );
-                Logger.Error( ex.StackTrace );
-                Exit( -1 );
-            }
-
-            if (_options.Interactive) {
-                Console.WriteLine( "Done!" );
-                Console.ReadLine();
+            var arguments = args.Skip( 1 ).ToArray();
+            switch ( args[0] ) {
+                case "usage":
+                    UsageProgram.Main( arguments );
+                    break;
+                case "port":
+                    PortProgram.Main( arguments );
+                    break;
+                case "wait":
+                    WaiterProgram.Main( arguments );
+                    break;
+                default:
+                    Logger.Error( "Incorrect operation: {0}", args[0] );
+                    Exit( -1 );
+                    break;
             }
 
             Exit( 0 );
         }
 
-        private static void Exit( int exitCode ) {
-            if (_options.Interactive) {
+        protected static void Exit( int exitCode ) {
+            bool debug = false;            
+#if DEBUG
+            debug = true; 
+#endif
+
+            if (CommandLineOptions.Global.Interactive || debug) {
                 Console.ReadLine();
             }
 
             Environment.Exit( exitCode );
         }
 
-        private static void ShowLogo() {
+        protected static void ShowLogo() {
             var version = FileVersionInfo.GetVersionInfo( Assembly.GetExecutingAssembly().Location ).FileVersion;
             Console.WriteLine( "****************************************************" );
             Console.WriteLine("                  Waiter v{0}", version);

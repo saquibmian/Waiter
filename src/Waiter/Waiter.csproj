@@ -44,13 +44,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine\ArrayPairExtensions.cs" />
+    <Compile Include="CommandLine\Attributes\FlagAttribute.cs" />
+    <Compile Include="CommandLine\Attributes\ICommandAttribute.cs" />
+    <Compile Include="CommandLine\Attributes\OptionalAttribute.cs" />
+    <Compile Include="CommandLine\Attributes\RequiredAttribute.cs" />
     <Compile Include="CommandLine\CommandLineParser.cs" />
     <Compile Include="CommandLine\CommandLineParserReponse.cs" />
     <Compile Include="CommandLine\CommandLineOptions.cs" />
+    <Compile Include="CommandLine\CommandsParser.cs" />
+    <Compile Include="CommandLine\CommandsParserReponse.cs" />
+    <Compile Include="CommandLine\PropertyHelper.cs" />
     <Compile Include="Exceptions\WaiterTimeoutException.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Networking\IPFinder.cs" />
     <Compile Include="Networking\PortFinder.cs" />
+    <Compile Include="Programs\PortProgram.cs" />
+    <Compile Include="Programs\UsageProgram.cs" />
+    <Compile Include="Programs\WaiterProgram.cs" />
     <Compile Include="UriExtensions\UriExtensions.cs" />
     <Compile Include="WaiterClient\HttpListenerExtensions.cs" />
     <Compile Include="WaiterClient\HttpMethod.cs" />
