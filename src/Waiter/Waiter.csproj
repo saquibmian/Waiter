@@ -43,18 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLine\ArrayPairExtensions.cs" />
     <Compile Include="CommandLine\Attributes\FlagAttribute.cs" />
     <Compile Include="CommandLine\Attributes\ICommandAttribute.cs" />
     <Compile Include="CommandLine\Attributes\OptionalAttribute.cs" />
     <Compile Include="CommandLine\Attributes\RequiredAttribute.cs" />
-    <Compile Include="CommandLine\CommandLineParser.cs" />
-    <Compile Include="CommandLine\CommandLineParserReponse.cs" />
     <Compile Include="CommandLine\CommandLineOptions.cs" />
-    <Compile Include="CommandLine\CommandsParser.cs" />
+    <Compile Include="CommandLine\Extensions\CollectionExtentions.cs" />
+    <Compile Include="CommandLine\Parser\CommandsParser.cs" />
     <Compile Include="Exceptions\CommandsParserException.cs" />
-    <Compile Include="CommandLine\CommandsParserReponse.cs" />
-    <Compile Include="CommandLine\PropertyHelper.cs" />
+    <Compile Include="CommandLine\Parser\CommandsParserReponse.cs" />
+    <Compile Include="CommandLine\Parser\PropertyHelper.cs" />
     <Compile Include="Exceptions\WaiterTimeoutException.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Networking\IPFinder.cs" />
@@ -70,6 +68,7 @@
     <Compile Include="Exceptions\IncorrectUrlException.cs" />
     <Compile Include="WaiterClient\Listener.cs" />
     <Compile Include="Exceptions\WaiterException.cs" />
+    <Compile Include="WaiterClient\WaiterOptionsProcessor.cs" />
     <Compile Include="WaiterClient\Request.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
