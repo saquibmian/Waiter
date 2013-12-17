@@ -17,7 +17,13 @@ namespace Waiter {
             }
 
             var arguments = args.Skip( 1 ).ToArray();
-            switch ( args[0] ) {
+            RunProgram( args[0], arguments );
+
+            Exit( 0 );
+        }
+
+        private static void RunProgram( string operation, string[] arguments  ) {
+            switch (operation) {
                 case "usage":
                     UsageProgram.Main( arguments );
                     break;
@@ -28,12 +34,10 @@ namespace Waiter {
                     WaiterProgram.Main( arguments );
                     break;
                 default:
-                    Logger.Error( "Incorrect operation: {0}", args[0] );
+                    Logger.Error( "Incorrect operation: {0}", operation );
                     Exit( -1 );
                     break;
             }
-
-            Exit( 0 );
         }
 
         protected static void Exit( int exitCode ) {
