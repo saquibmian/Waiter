@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Waiter.CommandLine.Parser;
 using Waiter.Logging;
 
 namespace Waiter.CommandLine.Attributes {
@@ -20,12 +21,8 @@ namespace Waiter.CommandLine.Attributes {
                 if ( !PropertyHelper.TrySet(property, model, value, out error) ) {
                     Logger.Warn( error );
                     Logger.Warn( "Setting {0} to {1}", property.Name, Default );
-                    args.Remove( Command );
-                    return;
+                    PropertyHelper.TrySet( property, model, Default, out error );
                 }
-
-                args.Remove(args[index + 1]);
-                args.Remove( Command );
             } else {
                 property.SetValue( model, Default, new object[0] );
             }

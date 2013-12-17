@@ -52,6 +52,7 @@
     <Compile Include="CommandLine\CommandLineParserReponse.cs" />
     <Compile Include="CommandLine\CommandLineOptions.cs" />
     <Compile Include="CommandLine\CommandsParser.cs" />
+    <Compile Include="Exceptions\CommandsParserException.cs" />
     <Compile Include="CommandLine\CommandsParserReponse.cs" />
     <Compile Include="CommandLine\PropertyHelper.cs" />
     <Compile Include="Exceptions\WaiterTimeoutException.cs" />

@@ -12,7 +12,6 @@ namespace Waiter.CommandLine.Attributes {
         public void Process<T>( List<string> args, T model, PropertyInfo property ) {
             if ( args.Contains( Command ) ) {
                 property.SetValue( model, true, new object[0] );
-                args.Remove( Command );
             }
         }
 

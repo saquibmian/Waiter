@@ -1,5 +1,6 @@
 ﻿using System;
 using Waiter.CommandLine;
+using Waiter.CommandLine.Parser;
 
 namespace Waiter.Programs {
     internal class UsageProgram : Program {

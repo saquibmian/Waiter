@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using Waiter.CommandLine.Attributes;
-using Waiter.Logging;
+using Waiter.Exceptions;
 
-namespace Waiter.CommandLine {
+namespace Waiter.CommandLine.Parser {
     public class CommandsParser<T> where T : new() {
 
         private readonly Dictionary<PropertyInfo, ICommandAttribute> _commands;
@@ -23,29 +22,22 @@ namespace Waiter.CommandLine {
             }
         }
 
-        public CommandsParserReponse<T> Parse( string[] args ) {
+        public CommandsParserReponse<T> Parse(string[] args) {
             var arguments = args.ToList();
             var model = new T();
+            var errors = new List<string>();
 
-            if ( !args.Any() ) {
-                var errors = _commands
-                    .Values
-                    .Where( x => x is RequiredAttribute )
-                    .Select( x => string.Format( "You have not specified a value for {0}", x.Command ) );
-                if (errors.Any()) {
-                    return new CommandsParserReponse<T>( errors );
+            foreach ( var command in _commands ) {
+                try {
+                    command.Value.Process( arguments, model, command.Key );
+                } catch ( CommandsParserException ex ) {
+                    errors.Add( ex.Message );
                 }
             }
 
-            foreach ( var command in _commands ) {
-                command.Value.Process( arguments, model, command.Key );
-            }
-
-            if (arguments.Any()) {
-                Logger.Warn( "Ignoring unknown commands: '{0}'", string.Join( " ", arguments ) );
-            }
-
-            return new CommandsParserReponse<T>( model );
+            return errors.Any() 
+                ? new CommandsParserReponse<T>( errors ) 
+                : new CommandsParserReponse<T>( model );
         }
 
         public string Usage {
@@ -60,7 +52,7 @@ namespace Waiter.CommandLine {
                         command.Value is OptionalAttribute
                             ? string.Format( "(default {0})", ( ( OptionalAttribute ) command.Value ).Default )
                             : ""
-                        );
+                    );
                 }
                 return builder.ToString();
             }

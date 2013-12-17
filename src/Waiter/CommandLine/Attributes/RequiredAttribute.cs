@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Waiter.CommandLine.Parser;
+using Waiter.Exceptions;
 
 namespace Waiter.CommandLine.Attributes {
     [AttributeUsage( AttributeTargets.Property, AllowMultiple = false )]
@@ -11,7 +13,7 @@ namespace Waiter.CommandLine.Attributes {
 
         public void Process<T>(List<string> args, T model, PropertyInfo property) {
             if ( !args.Contains( Command ) ) {
-                throw new Exception( "Required parameter not present" );
+                throw new CommandsParserException( "Required parameter not present: {0}", Command );
             }
 
             var index = args.IndexOf( Command );
@@ -21,11 +23,7 @@ namespace Waiter.CommandLine.Attributes {
             if ( !PropertyHelper.TrySet( property, model, value, out error ) ) {
                 Logging.Logger.Error( error );
                 args.Remove(Command);
-                return;
             }
-
-            args.Remove(args[index + 1]);
-            args.Remove(Command);
         }
     }
 }
