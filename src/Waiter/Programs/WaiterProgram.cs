@@ -15,12 +15,12 @@ namespace Waiter.Programs {
 
         internal new static void Main( string[] args ) {
             ParseArgs( args );
-            ProcessOptions();
-
-            if ( !_options.NoLogo ) {
+            
+            if (!_options.NoLogo) {
                 ShowLogo();
             }
 
+            ProcessOptions();
             StartListener();
 
             Exit( 0 );
