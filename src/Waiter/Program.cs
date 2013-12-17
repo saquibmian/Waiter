@@ -4,10 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Waiter.CommandLine;
 using Waiter.Logging;
-using Waiter.Networking;
 using Waiter.Programs;
-using Waiter.UriExtensions;
-using Waiter.WaiterClient;
 
 namespace Waiter {
     public class Program {
