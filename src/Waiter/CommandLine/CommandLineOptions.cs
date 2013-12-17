@@ -42,14 +42,14 @@ namespace Waiter.CommandLine {
 
         public override string ToString() {
             var builder = new StringBuilder();
-            builder.AppendFormat( "'PORT' = '{0}'\n", Port );
-            builder.AppendFormat( "'TIMEOUT' = '{0}'\n", Timeout );
-            builder.AppendFormat( "'NUMBEROFREQUESTS' = '{0}'\n", NumberOfRequests );
-            builder.AppendFormat( "'URL' = '{0}'\n", Url );
-            builder.AppendFormat( "'METHOD' = '{0}'\n", Method );
-            builder.AppendFormat( "'INTERACTIVE' = '{0}'\n", Interactive );
-            builder.AppendFormat( "'LOG' = '{0}'\n", Log );
-            builder.AppendFormat( "'LOGDIRECTORY' = '{0}'\n", LogDirectory );
+            builder.AppendFormat( "PORT = {0}\n", Port );
+            builder.AppendFormat( "TIMEOUT = {0}\n", Timeout );
+            builder.AppendFormat( "NUMBEROFREQUESTS = {0}\n", NumberOfRequests );
+            builder.AppendFormat( "URL = {0}\n", Url );
+            builder.AppendFormat( "METHOD = {0}\n", Method );
+            builder.AppendFormat( "INTERACTIVE = {0}\n", Interactive );
+            builder.AppendFormat( "LOG = {0}\n", Log );
+            builder.AppendFormat( "LOGDIRECTORY = {0}\n", LogDirectory );
             return builder.ToString();
         }
 
