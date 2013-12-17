@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Waiter.CommandLine.Attributes {
@@ -9,8 +10,8 @@ namespace Waiter.CommandLine.Attributes {
         public string Command { get; set; }
         public string Description { get; set; }
 
-        public void Process<T>( List<string> args, T model, PropertyInfo property ) {
-            if ( args.Contains( Command ) ) {
+        public void Process<T>( IEnumerable<string> args, T model, PropertyInfo property ) {
+            if ( args.Contains( Command, StringComparer.InvariantCultureIgnoreCase ) ) {
                 property.SetValue( model, true, new object[0] );
             }
         }

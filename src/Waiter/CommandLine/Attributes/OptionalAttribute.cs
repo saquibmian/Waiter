@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using Waiter.CommandLine.Extensions;
 using Waiter.CommandLine.Parser;
 using Waiter.Logging;
 
@@ -12,10 +14,10 @@ namespace Waiter.CommandLine.Attributes {
         public object Default { get; set; }
         public string Description { get; set; }
 
-        public void Process<T>(List<string> args, T model, PropertyInfo property) {
-            if ( args.Contains( Command ) ) {
+        public void Process<T>(IEnumerable<string> args, T model, PropertyInfo property) {
+            if ( args.Contains( Command, StringComparer.InvariantCultureIgnoreCase ) ) {
                 var index = args.IndexOf( Command );
-                object value = args[index + 1];
+                object value = args.ElementAt(index + 1);
 
                 string error;
                 if ( !PropertyHelper.TrySet(property, model, value, out error) ) {

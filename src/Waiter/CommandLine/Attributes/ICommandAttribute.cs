@@ -6,6 +6,6 @@ namespace Waiter.CommandLine.Attributes {
         string Command { get; }
         string Description { get; }
 
-        void Process<T>( List<string> args, T model, PropertyInfo property );
+        void Process<T>( IEnumerable<string> args, T model, PropertyInfo property );
     }
 }
