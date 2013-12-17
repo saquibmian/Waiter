@@ -1,7 +1,7 @@
 using System;
 
 namespace Waiter.Exceptions {
-    internal class WaiterTimeoutException : WaiterException {
+    public class WaiterTimeoutException : WaiterException {
         internal WaiterTimeoutException() {}
 
         internal WaiterTimeoutException( string msg, Exception ex )

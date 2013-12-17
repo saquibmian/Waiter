@@ -1,7 +1,7 @@
 using System;
 
 namespace Waiter.Exceptions {
-    internal class IncorrectUrlException : WaiterException {
+    public class IncorrectUrlException : WaiterException {
         internal IncorrectUrlException() {}
 
         internal IncorrectUrlException( string msg, Exception ex )
