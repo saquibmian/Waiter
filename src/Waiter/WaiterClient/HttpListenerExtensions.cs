@@ -24,8 +24,7 @@ namespace Waiter.WaiterClient {
         }
 
         internal static string GetBody( this HttpListenerRequest request ) {
-            using (var stream = request.InputStream)
-            using (var reader = new StreamReader(stream)) {
+            using (var reader = new StreamReader(request.InputStream)) {
                 return reader.ReadToEnd();
             }
 
